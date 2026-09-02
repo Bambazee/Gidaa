@@ -1,2 +1,1059 @@
 # Gidaa
 Verified rental platform for Kaduna, Nigeria
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>RentDirect Nigeria - Wireframe Prototype</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --primary: #1E40AF;
+    --primary-light: #3B82F6;
+    --primary-dark: #1E3A8A;
+    --accent: #F97316;
+    --success: #10B981;
+    --danger: #EF4444;
+    --warning: #F59E0B;
+    --bg: #F8FAFC;
+    --card: #FFFFFF;
+    --text: #0F172A;
+    --text-secondary: #64748B;
+    --border: #E2E8F0;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.05);
+    --shadow-lg: 0 10px 40px rgba(0,0,0,0.12);
+  }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: linear-gradient(135deg, #e0e7ff 0%, #f0f9ff 50%, #fef3c7 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+  }
+  .phone-frame {
+    width: 100%;
+    max-width: 390px;
+    background: var(--bg);
+    border-radius: 40px;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    position: relative;
+    border: 8px solid #1e293b;
+    min-height: 780px;
+  }
+  .notch {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 30px;
+    background: #1e293b;
+    border-bottom-left-radius: 18px;
+    border-bottom-right-radius: 18px;
+    z-index: 100;
+  }
+  .screen {
+    height: 100%;
+    overflow-y: auto;
+    padding-bottom: 80px;
+    scrollbar-width: none;
+  }
+  .screen::-webkit-scrollbar { display: none; }
+
+  /* Splash */
+  .splash {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    text-align: center;
+    padding: 40px;
+    position: relative;
+  }
+  .splash-icon {
+    width: 80px;
+    height: 80px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .splash-icon svg { width: 40px; height: 40px; }
+  .splash h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+  .splash p { font-size: 14px; opacity: 0.85; line-height: 1.6; }
+  .splash-dots { display: flex; gap: 8px; margin-top: 40px; }
+  .splash-dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.3); }
+  .splash-dots span.active { background: white; width: 24px; border-radius: 4px; }
+
+  /* Onboarding */
+  .onboarding { padding: 60px 24px 24px; text-align: center; }
+  .onboarding-img {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 32px;
+    background: linear-gradient(135deg, #dbeafe, #fef3c7);
+    border-radius: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 72px;
+  }
+  .onboarding h2 { font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+  .onboarding p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 32px; }
+  .btn {
+    width: 100%;
+    padding: 16px;
+    border-radius: 14px;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--primary-light), var(--primary));
+    color: white;
+    box-shadow: 0 4px 14px rgba(30, 64, 175, 0.3);
+  }
+  .btn-primary:active { transform: scale(0.98); }
+  .btn-outline {
+    background: white;
+    color: var(--primary);
+    border: 1.5px solid var(--border);
+    margin-top: 12px;
+  }
+  .btn-sm { padding: 10px 16px; width: auto; font-size: 13px; border-radius: 10px; }
+
+  /* Auth */
+  .auth { padding: 60px 24px 24px; }
+  .auth h2 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+  .auth p { font-size: 14px; color: var(--text-secondary); margin-bottom: 32px; }
+  .input-group { margin-bottom: 20px; }
+  .input-group label { display: block; font-size: 13px; font-weight: 500; color: var(--text-secondary); margin-bottom: 6px; }
+  .input-group input, .input-group select {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    font-size: 15px;
+    font-family: inherit;
+    background: white;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .input-group input:focus { border-color: var(--primary-light); }
+  .phone-input { display: flex; gap: 8px; }
+  .phone-input select { width: 90px; flex-shrink: 0; }
+  .otp-boxes { display: flex; gap: 10px; justify-content: center; margin: 24px 0; }
+  .otp-boxes input {
+    width: 50px;
+    height: 56px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    outline: none;
+  }
+  .role-select { display: flex; gap: 12px; margin-bottom: 24px; }
+  .role-card {
+    flex: 1;
+    padding: 20px 12px;
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: white;
+  }
+  .role-card.active { border-color: var(--primary-light); background: #eff6ff; }
+  .role-card .emoji { font-size: 32px; margin-bottom: 8px; }
+  .role-card .label { font-size: 13px; font-weight: 600; color: var(--text); }
+
+  /* Home */
+  .home-header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: 50px 20px 24px;
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;
+  }
+  .home-header h1 { font-size: 20px; font-weight: 700; margin-bottom: 16px; }
+  .search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    padding: 12px 16px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .search-bar input {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 14px;
+    outline: none;
+    width: 100%;
+    font-family: inherit;
+  }
+  .search-bar input::placeholder { color: rgba(255,255,255,0.6); }
+
+  .filter-chips {
+    display: flex;
+    gap: 8px;
+    padding: 16px 20px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .filter-chips::-webkit-scrollbar { display: none; }
+  .chip {
+    padding: 8px 16px;
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .chip.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+  .section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    margin-bottom: 12px;
+  }
+  .section-title h3 { font-size: 16px; font-weight: 700; }
+  .section-title a { font-size: 13px; color: var(--primary-light); font-weight: 600; text-decoration: none; }
+
+  .property-card {
+    background: var(--card);
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 0 20px 16px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+  }
+  .property-img {
+    width: 100%;
+    height: 180px;
+    background: linear-gradient(135deg, #dbeafe, #e0e7ff);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+  }
+  .property-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: var(--success);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .property-fav {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .property-info { padding: 16px; }
+  .property-price {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 4px;
+  }
+  .property-price span { font-size: 13px; font-weight: 500; color: var(--text-secondary); }
+  .property-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .property-loc { font-size: 13px; color: var(--text-secondary); display: flex; align-items: center; gap: 4px; margin-bottom: 10px; }
+  .property-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag {
+    padding: 4px 10px;
+    background: #f1f5f9;
+    border-radius: 6px;
+    font-size: 11px;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+  .tag.power { background: #fef3c7; color: #92400e; }
+  .tag.water { background: #dbeafe; color: #1e40af; }
+  .tag.security { background: #d1fae5; color: #065f46; }
+
+  /* Property Detail */
+  .detail-hero {
+    width: 100%;
+    height: 280px;
+    background: linear-gradient(135deg, #dbeafe, #fef3c7);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 80px;
+  }
+  .detail-back {
+    position: absolute;
+    top: 50px;
+    left: 16px;
+    width: 36px;
+    height: 36px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+    z-index: 10;
+  }
+  .detail-gallery-dots {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+  }
+  .detail-gallery-dots span { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.5); }
+  .detail-gallery-dots span.active { background: white; width: 18px; border-radius: 3px; }
+  .detail-body { padding: 20px; }
+  .detail-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+  .detail-header-left h2 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+  .detail-header-left p { font-size: 13px; color: var(--text-secondary); }
+  .detail-price { text-align: right; }
+  .detail-price .amount { font-size: 22px; font-weight: 800; color: var(--primary); }
+  .detail-price .period { font-size: 12px; color: var(--text-secondary); }
+  .detail-specs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+  .spec-box {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    text-align: center;
+  }
+  .spec-box .icon { font-size: 20px; margin-bottom: 4px; }
+  .spec-box .value { font-size: 14px; font-weight: 700; color: var(--text); }
+  .spec-box .label { font-size: 11px; color: var(--text-secondary); }
+  .detail-section { margin-bottom: 20px; }
+  .detail-section h4 { font-size: 15px; font-weight: 700; margin-bottom: 10px; }
+  .detail-section p { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+  .amenity-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .amenity-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    background: #f8fafc;
+    border-radius: 10px;
+    font-size: 13px;
+  }
+  .amenity-item .check { color: var(--success); font-weight: 700; }
+  .landlord-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background: #f8fafc;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    margin-bottom: 20px;
+  }
+  .landlord-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-light), var(--primary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 18px;
+  }
+  .landlord-info { flex: 1; }
+  .landlord-info .name { font-size: 14px; font-weight: 600; }
+  .landlord-info .badge { font-size: 11px; color: var(--success); font-weight: 500; }
+  .landlord-info .joined { font-size: 11px; color: var(--text-secondary); }
+  .contact-btns { display: flex; gap: 10px; }
+  .contact-btns .btn { flex: 1; margin: 0; }
+  .btn-whatsapp { background: linear-gradient(135deg, #22c55e, #16a34a); color: white; }
+  .btn-call { background: white; color: var(--text); border: 1.5px solid var(--border); }
+
+  /* List Property */
+  .list-header {
+    padding: 50px 20px 20px;
+    background: white;
+    border-bottom: 1px solid var(--border);
+  }
+  .list-header h2 { font-size: 22px; font-weight: 700; }
+  .list-header p { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+  .progress-bar { display: flex; gap: 6px; margin-top: 16px; }
+  .progress-bar span { flex: 1; height: 4px; background: var(--border); border-radius: 2px; }
+  .progress-bar span.active { background: var(--primary-light); }
+  .form-step { padding: 20px; }
+  .form-step h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .form-step p { font-size: 13px; color: var(--text-secondary); margin-bottom: 20px; }
+  .photo-upload {
+    border: 2px dashed var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+    background: #f8fafc;
+    margin-bottom: 20px;
+    cursor: pointer;
+  }
+  .photo-upload .icon { font-size: 40px; margin-bottom: 8px; }
+  .photo-upload .text { font-size: 14px; font-weight: 500; color: var(--text); }
+  .photo-upload .sub { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+  .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 20px; }
+  .photo-thumb {
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, #dbeafe, #e0e7ff);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    position: relative;
+  }
+  .photo-thumb .remove {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 20px;
+    height: 20px;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border-radius: 50%;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .checkbox-group { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px;
+    background: #f8fafc;
+    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .checkbox-item.checked { border-color: var(--primary-light); background: #eff6ff; }
+  .checkbox-item .box {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: white;
+  }
+  .checkbox-item.checked .box { background: var(--primary-light); border-color: var(--primary-light); }
+
+  /* Bottom Nav */
+  .bottom-nav {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0 24px;
+    z-index: 50;
+  }
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 4px 12px;
+  }
+  .nav-item.active { color: var(--primary); }
+  .nav-item .icon { font-size: 20px; }
+
+  /* How It Works */
+  .hiw-header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: 50px 24px 32px;
+    text-align: center;
+  }
+  .hiw-header h1 { font-size: 26px; font-weight: 800; margin-bottom: 8px; }
+  .hiw-header p { font-size: 14px; opacity: 0.85; }
+  .hiw-steps { padding: 24px; }
+  .hiw-step {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+    align-items: flex-start;
+  }
+  .hiw-step-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-light), var(--primary));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .hiw-step-content h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+  .hiw-step-content p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+  .hiw-cta {
+    padding: 0 24px 32px;
+  }
+
+  /* Screen toggle */
+  .screen-toggle {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: var(--primary);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: var(--shadow-lg);
+    border: none;
+    font-family: inherit;
+    z-index: 1000;
+  }
+
+  .hidden { display: none !important; }
+
+  /* Verification badge */
+  .verified-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #d1fae5;
+    color: #065f46;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+</style>
+<base target="_blank">
+</head>
+<body>
+
+<div class="phone-frame">
+  <div class="notch"></div>
+  <div class="screen" id="screen">
+
+    <!-- ========== SCREEN 1: SPLASH ========== -->
+    <div class="page" id="page-splash">
+      <div class="splash">
+        <div class="splash-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <h1>RentDirect</h1>
+        <p>Find verified rental homes in Nigeria.<br>No agent wahala. No hidden fees.<br>See it. Love it. Rent it.</p>
+        <div class="splash-dots">
+          <span class="active"></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== SCREEN 2: ONBOARDING ========== -->
+    <div class="page hidden" id="page-onboarding">
+      <div class="onboarding">
+        <div class="onboarding-img">🔍</div>
+        <h2>Search Anywhere</h2>
+        <p>Find houses for rent in Lekki, Yaba, Gwarinpa, or any area in Nigeria. Filter by price, bedrooms, and amenities.</p>
+        <button class="btn btn-primary" onclick="goTo('page-auth')">Get Started</button>
+        <button class="btn btn-outline" onclick="goTo('page-home')">Skip for now</button>
+      </div>
+    </div>
+
+    <!-- ========== SCREEN 3: AUTH ========== -->
+    <div class="page hidden" id="page-auth">
+      <div class="auth">
+        <h2>Create Account</h2>
+        <p>Join thousands finding homes without agent stress.</p>
+
+        <div class="role-select">
+          <div class="role-card active" onclick="selectRole(this)">
+            <div class="emoji">🔍</div>
+            <div class="label">I want to Rent</div>
+          </div>
+          <div class="role-card" onclick="selectRole(this)">
+            <div class="emoji">🏠</div>
+            <div class="label">I have a Property</div>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label>Full Name</label>
+          <input type="text" placeholder="Chidi Obi">
+        </div>
+        <div class="input-group">
+          <label>Phone Number</label>
+          <div class="phone-input">
+            <select><option>+234</option></select>
+            <input type="tel" placeholder="803 123 4567">
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="goTo('page-otp')">Continue</button>
+        <p style="text-align:center; margin-top:16px; font-size:13px; color:var(--text-secondary);">Already have an account? <a href="#" style="color:var(--primary-light); font-weight:600; text-decoration:none;">Sign In</a></p>
+      </div>
+    </div>
+
+    <!-- ========== SCREEN 4: OTP ========== -->
+    <div class="page hidden" id="page-otp">
+      <div class="auth">
+        <h2>Verify Phone</h2>
+        <p>Enter the 4-digit code sent to <strong>+234 803 123 4567</strong></p>
+        <div class="otp-boxes">
+          <input type="text" maxlength="1" value="5">
+          <input type="text" maxlength="1" value="2">
+          <input type="text" maxlength="1" value="8">
+          <input type="text" maxlength="1" value="9">
+        </div>
+        <p style="text-align:center; font-size:13px; color:var(--text-secondary); margin-bottom:24px;">Didn't receive? <a href="#" style="color:var(--primary-light); font-weight:600;">Resend</a></p>
+        <button class="btn btn-primary" onclick="goTo('page-home')">Verify & Continue</button>
+      </div>
+    </div>
+
+    <!-- ========== SCREEN 5: HOME ========== -->
+    <div class="page hidden" id="page-home">
+      <div class="home-header">
+        <h1>Find Your Home 🏠</h1>
+        <div class="search-bar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" placeholder="Search Lekki, Yaba, Gwarinpa...">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+        </div>
+      </div>
+
+      <div class="filter-chips">
+        <div class="chip active">All</div>
+        <div class="chip">Self-Contained</div>
+        <div class="chip">1 Bedroom</div>
+        <div class="chip">2 Bedroom</div>
+        <div class="chip">3 Bedroom+</div>
+        <div class="chip">Duplex</div>
+      </div>
+
+      <div class="section-title">
+        <h3>Near You — Lekki</h3>
+        <a href="#">See all</a>
+      </div>
+
+      <div class="property-card" onclick="goTo('page-detail')">
+        <div class="property-img">
+          🏠
+          <div class="property-badge">✓ Verified</div>
+          <div class="property-fav">♡</div>
+        </div>
+        <div class="property-info">
+          <div class="property-price">₦2,500,000 <span>/ year</span></div>
+          <div class="property-title">Modern 3-Bedroom Flat with BQ</div>
+          <div class="property-loc">📍 Lekki Phase 1, Lagos</div>
+          <div class="property-tags">
+            <span class="tag">3 Beds</span>
+            <span class="tag">3 Baths</span>
+            <span class="tag power">⚡ 24/7 Light</span>
+            <span class="tag water">💧 Borehole</span>
+            <span class="tag security">🔒 Estate</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="property-card">
+        <div class="property-img" style="background:linear-gradient(135deg,#fef3c7,#fce7f3);">
+          🏡
+          <div class="property-badge" style="background:var(--warning);">⏳ New</div>
+          <div class="property-fav">♡</div>
+        </div>
+        <div class="property-info">
+          <div class="property-price">₦1,200,000 <span>/ year</span></div>
+          <div class="property-title">Spacious 2-Bedroom Flat</div>
+          <div class="property-loc">📍 Yaba, Lagos (Near UNILAG)</div>
+          <div class="property-tags">
+            <span class="tag">2 Beds</span>
+            <span class="tag">2 Baths</span>
+            <span class="tag power">⚡ Gen + PHCN</span>
+            <span class="tag">🚶 BRT Access</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="property-card">
+        <div class="property-img" style="background:linear-gradient(135deg,#d1fae5,#dbeafe);">
+          🏘️
+          <div class="property-badge">✓ Verified</div>
+          <div class="property-fav">♡</div>
+        </div>
+        <div class="property-info">
+          <div class="property-price">₦800,000 <span>/ year</span></div>
+          <div class="property-title">Self-Contained Studio</div>
+          <div class="property-loc">📍 Gbagada, Lagos</div>
+          <div class="property-tags">
+            <span class="tag">1 Bed</span>
+            <span class="tag">1 Bath</span>
+            <span class="tag">🅿️ Parking</span>
+            <span class="tag">🍳 Kitchen</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="height:60px;"></div>
+
+      <div class="bottom-nav">
+        <div class="nav-item active" onclick="goTo('page-home')">
+          <span class="icon">🏠</span>
+          <span>Home</span>
+        </div>
+        <div class="nav-item" onclick="goTo('page-saved')">
+          <span class="icon">♡</span>
+          <span>Saved</span>
+        </div>
+        <div class="nav-item" onclick="goTo('page-list')">
+          <span class="icon">➕</span>
+          <span>List</span>
+        </div>
+        <div class="nav-item" onclick="goTo('page-profile')">
+          <span class="icon">👤</span>
+          <span>Profile</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== SCREEN 6: PROPERTY DETAIL ========== -->
+    <div class="page hidden" id="page-detail">
+      <div class="detail-hero">
+        🏠
+        <div class="detail-back" onclick="goTo('page-home')">←</div>
+        <div class="detail-gallery-dots">
+          <span class="active"></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+      <div class="detail-body">
+        <div class="detail-header">
+          <div class="detail-header-left">
+            <h2>Modern 3-Bedroom Flat</h2>
+            <p>📍 Chevron Drive, Lekki Phase 2, Lagos</p>
+            <span class="verified-badge">✓ RentDirect Verified</span>
+          </div>
+          <div class="detail-price">
+            <div class="amount">₦2.5M</div>
+            <div class="period">per annum</div>
+          </div>
+        </div>
+
+        <div class="detail-specs">
+          <div class="spec-box">
+            <div class="icon">🛏️</div>
+            <div class="value">3</div>
+            <div class="label">Bedrooms</div>
+          </div>
+          <div class="spec-box">
+            <div class="icon">🚿</div>
+            <div class="value">3</div>
+            <div class="label">Bathrooms</div>
+          </div>
+          <div class="spec-box">
+            <div class="icon">🏠</div>
+            <div class="value">BQ</div>
+            <div class="label">Included</div>
+          </div>
+        </div>
+
+        <div class="detail-section">
+          <h4>About This Property</h4>
+          <p>A beautifully finished 3-bedroom flat in a serene estate. Features POP ceiling, all rooms ensuite, fitted kitchen with cabinets, spacious parking, and 24/7 security. Borehole water and dedicated transformer for stable power. Perfect for families or professionals working on the Island.</p>
+        </div>
+
+        <div class="detail-section">
+          <h4>Amenities</h4>
+          <div class="amenity-grid">
+            <div class="amenity-item"><span class="check">✓</span> 24/7 Electricity</div>
+            <div class="amenity-item"><span class="check">✓</span> Borehole Water</div>
+            <div class="amenity-item"><span class="check">✓</span> Estate Security</div>
+            <div class="amenity-item"><span class="check">✓</span> POP Ceiling</div>
+            <div class="amenity-item"><span class="check">✓</span> Fitted Kitchen</div>
+            <div class="amenity-item"><span class="check">✓</span> Car Parking (2)</div>
+            <div class="amenity-item"><span class="check">✓</span> Interlocked Road</div>
+            <div class="amenity-item"><span class="check">✓</span> Prepaid Meter</div>
+          </div>
+        </div>
+
+        <div class="detail-section">
+          <h4>Total Move-In Cost</h4>
+          <div style="background:#f8fafc; border-radius:12px; padding:16px; border:1px solid var(--border);">
+            <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:8px;"><span>Rent (1 year)</span><strong>₦2,500,000</strong></div>
+            <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:8px; color:var(--text-secondary);"><span>Agency Fee (10%)</span><span>₦0 <span style="color:var(--success); font-size:11px;">(Waived!)</span></span></div>
+            <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:8px; color:var(--text-secondary);"><span>Legal Fee (10%)</span><span>₦0 <span style="color:var(--success); font-size:11px;">(Waived!)</span></span></div>
+            <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:8px; color:var(--text-secondary);"><span>Caution Deposit</span><span>₦250,000</span></div>
+            <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:8px; color:var(--text-secondary);"><span>Service Charge</span><span>₦150,000</span></div>
+            <div style="border-top:1px solid var(--border); margin-top:10px; padding-top:10px; display:flex; justify-content:space-between; font-size:15px; font-weight:700;"><span>Total First Payment</span><span style="color:var(--primary);">₦2,900,000</span></div>
+          </div>
+        </div>
+
+        <div class="detail-section">
+          <h4>Landlord</h4>
+          <div class="landlord-card">
+            <div class="landlord-avatar">AI</div>
+            <div class="landlord-info">
+              <div class="name">Alhaji Ibrahim A.</div>
+              <div class="badge">✓ Verified Landlord</div>
+              <div class="joined">Member since Jan 2026 • 4 properties</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-btns">
+          <button class="btn btn-whatsapp">💬 Chat on WhatsApp</button>
+          <button class="btn btn-call">📞 Call</button>
+        </div>
+        <div style="height:40px;"></div>
+      </div>
+    </div>
+
+    <!-- ========== SCREEN 7: LIST PROPERTY ========== -->
+    <div class="page hidden" id="page-list">
+      <div class="list-header">
+        <h2>List Your Property</h2>
+        <p>Reach thousands of verified renters</p>
+        <div class="progress-bar">
+          <span class="active"></span>
+          <span class="active"></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+      <div class="form-step">
+        <h3>Property Photos</h3>
+        <p>Add at least 3 photos. First photo is the cover.</p>
+        <div class="photo-grid">
+          <div class="photo-thumb">🏠<div class="remove">×</div></div>
+          <div class="photo-thumb" style="background:linear-gradient(135deg,#fef3c7,#fce7f3);">🛋️<div class="remove">×</div></div>
+          <div class="photo-thumb" style="background:linear-gradient(135deg,#d1fae5,#dbeafe);">🚿<div class="remove">×</div></div>
+        </div>
+        <div class="photo-upload">
+          <div class="icon">📷</div>
+          <div class="text">Add More Photos</div>
+          <div class="sub">Tap to upload from gallery</div>
+        </div>
+      </div>
+      <div class="form-step">
+        <h3>Property Details</h3>
+        <p>Help renters find your property</p>
+        <div class="input-group">
+          <label>Property Title</label>
+          <input type="text" placeholder="e.g. 3-Bedroom Flat in Lekki">
+        </div>
+        <div class="input-group">
+          <label>Property Type</label>
+          <select>
+            <option>Select type...</option>
+            <option>Self-Contained</option>
+            <option>Mini Flat (1 Bedroom)</option>
+            <option>2 Bedroom Flat</option>
+            <option>3 Bedroom Flat</option>
+            <option>4+ Bedroom</option>
+            <option>Duplex</option>
+            <option>Bungalow</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label>Annual Rent (₦)</label>
+          <input type="number" placeholder="2,500,000">
+        </div>
+        <div class="input-group">
+          <label>Address</label>
+          <input type="text" placeholder="Chevron Drive, Lekki Phase 2">
+        </div>
+        <button class="btn btn-primary">Continue to Amenities →</button>
+      </div>
+      <div style="height:80px;"></div>
+    </div>
+
+    <!-- ========== SCREEN 8: PROFILE ========== -->
+    <div class="page hidden" id="page-profile">
+      <div style="padding:50px 20px 20px; text-align:center; background:white; border-bottom:1px solid var(--border);">
+        <div style="width:80px; height:80px; border-radius:50%; background:linear-gradient(135deg,var(--primary-light),var(--primary)); margin:0 auto 12px; display:flex; align-items:center; justify-content:center; color:white; font-size:32px; font-weight:700;">CO</div>
+        <h2 style="font-size:18px; font-weight:700;">Chidi Obi</h2>
+        <p style="font-size:13px; color:var(--text-secondary);">Renter • Lagos, Nigeria</p>
+        <div style="display:flex; justify-content:center; gap:8px; margin-top:12px;">
+          <span class="verified-badge">✓ Phone Verified</span>
+        </div>
+      </div>
+      <div style="padding:20px;">
+        <div style="background:white; border-radius:16px; border:1px solid var(--border); overflow:hidden;">
+          <div style="padding:16px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:12px; cursor:pointer;">
+            <span style="font-size:20px;">♡</span>
+            <span style="flex:1; font-size:14px; font-weight:500;">Saved Properties</span>
+            <span style="color:var(--text-secondary);">3 →</span>
+          </div>
+          <div style="padding:16px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:12px; cursor:pointer;">
+            <span style="font-size:20px;">🔔</span>
+            <span style="flex:1; font-size:14px; font-weight:500;">Alerts & Notifications</span>
+            <span style="color:var(--text-secondary);">→</span>
+          </div>
+          <div style="padding:16px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:12px; cursor:pointer;">
+            <span style="font-size:20px;">🛡️</span>
+            <span style="flex:1; font-size:14px; font-weight:500;">Verification Center</span>
+            <span class="verified-badge" style="background:#fef3c7; color:#92400e;">Pending</span>
+          </div>
+          <div style="padding:16px; display:flex; align-items:center; gap:12px; cursor:pointer;">
+            <span style="font-size:20px;">⚙️</span>
+            <span style="flex:1; font-size:14px; font-weight:500;">Settings</span>
+            <span style="color:var(--text-secondary);">→</span>
+          </div>
+        </div>
+        <button class="btn btn-outline" style="margin-top:20px;">🚪 Log Out</button>
+      </div>
+      <div style="height:80px;"></div>
+      <div class="bottom-nav">
+        <div class="nav-item" onclick="goTo('page-home')">
+          <span class="icon">🏠</span>
+          <span>Home</span>
+        </div>
+        <div class="nav-item">
+          <span class="icon">♡</span>
+          <span>Saved</span>
+        </div>
+        <div class="nav-item" onclick="goTo('page-list')">
+          <span class="icon">➕</span>
+          <span>List</span>
+        </div>
+        <div class="nav-item active">
+          <span class="icon">👤</span>
+          <span>Profile</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== SCREEN 9: HOW IT WORKS ========== -->
+    <div class="page hidden" id="page-hiw">
+      <div class="hiw-header">
+        <h1>How RentDirect Works</h1>
+        <p>No agent wahala. No hidden fees.<br>Find your home in 4 simple steps.</p>
+      </div>
+      <div class="hiw-steps">
+        <div class="hiw-step">
+          <div class="hiw-step-num">1</div>
+          <div class="hiw-step-content">
+            <h4>Search Your Area</h4>
+            <p>Type any location in Nigeria — Lekki, Yaba, Gwarinpa, Wuse. Filter by price, bedrooms, and must-have amenities like "24/7 light" or "borehole water."</p>
+          </div>
+        </div>
+        <div class="hiw-step">
+          <div class="hiw-step-num">2</div>
+          <div class="hiw-step-content">
+            <h4>View Verified Listings</h4>
+            <p>Every listing is verified. We check the landlord's ID, match photo GPS to the address, and spot-check properties. The blue badge means it's real.</p>
+          </div>
+        </div>
+        <div class="hiw-step">
+          <div class="hiw-step-num">3</div>
+          <div class="hiw-step-content">
+            <h4>Contact Directly</h4>
+            <p>Tap "Chat on WhatsApp" or "Call" to speak directly with the landlord. No middleman. No agency fee. No "inspection fee."</p>
+          </div>
+        </div>
+        <div class="hiw-step">
+          <div class="hiw-step-num">4</div>
+          <div class="hiw-step-content">
+            <h4>View & Rent</h4>
+            <p>Schedule a physical viewing, inspect the property, and close the deal. We show you the total move-in cost upfront — rent, caution, service charge — no surprises.</p>
+          </div>
+        </div>
+      </div>
+      <div class="hiw-cta">
+        <button class="btn btn-primary" onclick="goTo('page-auth')">Get Started — It's Free</button>
+        <button class="btn btn-outline" onclick="goTo('page-home')">Browse Listings First</button>
+      </div>
+      <div style="height:40px;"></div>
+    </div>
+
+  </div>
+</div>
+
+<button class="screen-toggle" onclick="toggleScreen()">📱 Switch Screen</button>
+
+<script>
+const screens = ['page-splash','page-onboarding','page-auth','page-otp','page-home','page-detail','page-list','page-profile','page-hiw'];
+let current = 0;
+
+function goTo(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+  current = screens.indexOf(id);
+}
+
+function toggleScreen() {
+  current = (current + 1) % screens.length;
+  goTo(screens[current]);
+}
+
+function selectRole(el) {
+  document.querySelectorAll('.role-card').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// Auto-advance splash
+setTimeout(() => {
+  if(current === 0) goTo('page-onboarding');
+}, 2500);
+</script>
+
+</body>
+</html>
