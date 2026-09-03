@@ -1,4 +1,20 @@
-# Gidaa
+# Gidaa / RentDirect — MVP
+
+This workspace contains a scaffold for converting the RentDirect prototype into a functional MVP using Next.js, TypeScript, Tailwind, and Supabase.
+
+What's included:
+- Next.js scaffold (src/pages)
+- Supabase client wrapper (src/lib/supabaseClient.ts)
+- Tailwind CSS setup
+- Database schema: db/schema.sql (run in Supabase SQL editor)
+
+Next steps (quick):
+1. Install dependencies: `npm install`
+2. Create a Supabase project and set `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` in a `.env.local` file.
+3. Run the SQL in `db/schema.sql` in your Supabase SQL editor to create tables and seed amenities.
+4. Start dev server: `npm run dev`
+
+I'll continue by implementing API routes, property pages, and the landlord/admin flows next. Want me to proceed with API routes and basic admin pages now?
 
 Short one-line description of Gidaa: what it does and who it’s for.
 

@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #__next {
+  height: 100%;
+}
+
+/* Basic helper styles for the scaffold */
+.container { max-width: 1024px; margin: 0 auto; }
