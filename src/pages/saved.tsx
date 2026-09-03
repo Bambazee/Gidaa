@@ -1,43 +1,26 @@
-import { useEffect, useState } from 'react'
-import { supabase } from '../lib/supabaseClient'
-import Link from 'next/link'
+import Link from "next/link";
+import BottomNav from "@/components/BottomNav";
 
 export default function Saved() {
-  const [saved, setSaved] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    fetchSaved()
-  }, [])
-
-  async function fetchSaved() {
-    setLoading(true)
-    const session = await supabase.auth.getSession()
-    const token = session.data.session?.access_token
-    const res = await fetch('/api/saved-properties', { headers: { Authorization: `Bearer ${token}` } })
-    const data = await res.json()
-    setSaved(data.saved || [])
-    setLoading(false)
-  }
-
-  if (loading) return <div className="p-4">Loading saved properties…</div>
-  if (!saved.length) return <div className="p-4">No saved properties yet.</div>
-
   return (
-    <div className="p-4 container">
-      <h1 className="text-2xl font-semibold mb-4">Saved properties</h1>
-      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {saved.map((s) => (
-          <li key={s.id} className="border rounded p-3">
-            <Link href={`/properties/${s.properties.id}`}>
-              <a>
-                <h2 className="font-semibold">{s.properties.title}</h2>
-                <div className="text-sm text-gray-600">{s.properties.city} — ₦{Number(s.properties.annual_rent).toLocaleString()}</div>
-              </a>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
+    <main className="min-h-screen bg-slate-50 pb-24">
+      <div className="bg-white px-5 pt-12 pb-4 border-b border-slate-100">
+        <Link href="/" className="text-slate-400 text-sm mb-4 inline-block">← Back</Link>
+        <h1 className="text-xl font-bold">Saved Properties</h1>
+        <p className="text-sm text-slate-500 mt-1">3 properties saved</p>
+      </div>
+
+      <div className="px-5 py-4">
+        <div className="bg-white rounded-2xl p-6 text-center border border-slate-200">
+          <div className="text-4xl mb-2">♡</div>
+          <p className="text-slate-500 text-sm">Your saved properties will appear here.</p>
+          <Link href="/" className="text-blue-600 font-semibold text-sm mt-3 inline-block">
+            Browse Properties →
+          </Link>
+        </div>
+      </div>
+
+      <BottomNav />
+    </main>
+  );
 }
