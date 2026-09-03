@@ -49,7 +49,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (wanted.length) {
           const ids = properties.map((p: any) => p.id)
           const { data: pa } = await supabaseAdmin.from('property_amenities').select('*').in('property_id', ids)
-          const amenityMap: Record<string, string[]> = {}
+          const amenityMap: any = {}
           (pa || []).forEach((r: any) => {
             amenityMap[r.property_id] = amenityMap[r.property_id] || []
             amenityMap[r.property_id].push(String(r.amenity_id))
