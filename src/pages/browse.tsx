@@ -140,11 +140,11 @@ export default function Browse() {
               {properties.map((p: Property) => (
                 <li key={p.id} className="border rounded p-3">
                   <Link href={`/properties/${p.id}`}>
-                    <a className="block">
+                    <div className="block">
                       <h2 className="font-semibold">{p.title}</h2>
                       <div className="text-sm text-gray-600">{p.city} — ₦{Number(p.annual_rent).toLocaleString()}</div>
                       <div className="text-xs text-gray-500">{p.bedrooms} beds • {p.bathrooms} baths • {p.verification_status === 'verified' ? '✓ Verified' : ''}</div>
-                    </a>
+                    </div>
                   </Link>
                 </li>
               ))}

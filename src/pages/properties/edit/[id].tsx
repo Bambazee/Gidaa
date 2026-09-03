@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import ImageUploader from '../../../components/ImageUploader'
-import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import type { DropResult } from 'react-beautiful-dnd'
 import { supabase } from '../../../lib/supabaseClient'
 
 export default function EditPropertyPage() {
@@ -163,11 +164,11 @@ export default function EditPropertyPage() {
             saveOrder(arr)
           }}>
             <Droppable droppableId="existing-images">
-              {(provided) => (
+              {(provided: any) => (
                 <div className="grid grid-cols-3 gap-2" ref={provided.innerRef} {...provided.droppableProps}>
                   {existingImages.map((img: any, idx: number) => (
                     <Draggable key={img.id} draggableId={img.id} index={idx}>
-                      {(prov, snapshot) => (
+                      {(prov: any, snapshot: any) => (
                         <div
                           ref={prov.innerRef}
                           {...prov.draggableProps}

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import type { DropResult } from 'react-beautiful-dnd'
 
 type Preview = {
   id: string
@@ -59,7 +60,7 @@ export default function ImageUploader({ onChange }: { onChange: (files: File[]) 
     return result
   }
 
-  function handleDragEnd(result: any) {
+  function handleDragEnd(result: DropResult) {
     if (!result.destination) return
     const next = reorder(previews, result.source.index, result.destination.index)
     setPreviews(next)
@@ -84,7 +85,7 @@ export default function ImageUploader({ onChange }: { onChange: (files: File[]) 
                       ref={prov.innerRef}
                       {...prov.draggableProps}
                       {...prov.dragHandleProps}
-                      className={`relative transition-transform duration-150 ease-in-out ${snapshot.isDragging ? 'scale-105 z-10' : ''} ${p.visible ? 'opacity-100' : 'opacity-0'} ${p.removing ? 'opacity-0' : 'opacity-100'}`}
+                      className={`relative transition-transform duration-150 ease-in-out ${snapshot.isDragging ? 'scale-105 z-10' : ''} ${p.visible ? 'opacity-100' : 'opacity-0'} ${p.removing ? 'opacity-0' : ''}`}
                       style={{ transitionProperty: 'transform, opacity' }}
                     >
                       <img src={p.url} alt="preview" className="h-28 w-full object-cover rounded" />
