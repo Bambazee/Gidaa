@@ -1,87 +1,79 @@
-import Head from 'next/head'
-import Link from 'next/link'
-import { useState, useEffect } from 'react'
-import { supabase } from '../lib/supabaseClient'
+import { useState, useMemo } from "react";
+import { properties, areas, types } from "@/lib/data";
+import SearchBar from "@/components/SearchBar";
+import FilterChips from "@/components/FilterChips";
+import PropertyCard from "@/components/PropertyCard";
+import BottomNav from "@/components/BottomNav";
 
 export default function Home() {
-  const [query, setQuery] = useState('')
-  const [properties, setProperties] = useState<any[]>([])
-  const [loading, setLoading] = useState(false)
+  const [search, setSearch] = useState("");
+  const [areaFilter, setAreaFilter] = useState("All");
+  const [typeFilter, setTypeFilter] = useState("All");
 
-  useEffect(() => {
-    fetchProperties()
-  }, [])
-
-  async function fetchProperties() {
-    setLoading(true)
-    const { data, error } = await supabase
-      .from('properties')
-      .select('*')
-      .eq('status', 'published')
-      .limit(20)
-    if (error) {
-      console.error(error)
-    } else {
-      setProperties(data || [])
-    }
-    setLoading(false)
-  }
-
-  async function onSearch(e: React.FormEvent) {
-    e.preventDefault()
-    setLoading(true)
-    const q = query.trim()
-    const { data, error } = await supabase
-      .from('properties')
-      .select('*')
-      .ilike('title', `%${q}%`)
-      .or(`address.ilike.%${q}%,area.ilike.%${q}%,city.ilike.%${q}%,state.ilike.%${q}%`)
-      .eq('status', 'published')
-      .limit(50)
-    if (error) console.error(error)
-    setProperties(data || [])
-    setLoading(false)
-  }
+  const filtered = useMemo(() => {
+    return properties.filter((p) => {
+      const matchesSearch =
+        !search ||
+        p.location.toLowerCase().includes(search.toLowerCase()) ||
+        p.title.toLowerCase().includes(search.toLowerCase());
+      const matchesArea = areaFilter === "All" || p.area === areaFilter;
+      const matchesType = typeFilter === "All" || p.type === typeFilter;
+      return matchesSearch && matchesArea && matchesType;
+    });
+  }, [search, areaFilter, typeFilter]);
 
   return (
-    <div className="min-h-screen py-8 px-4">
-      <Head>
-        <title>RentDirect — Find verified rental homes in Nigeria</title>
-      </Head>
-      <main className="container">
-        <h1 className="text-3xl font-semibold mb-2">Find verified rental homes in Nigeria.</h1>
-        <p className="text-gray-600 mb-6">No agent wahala. No hidden fees.</p>
+    <main className="min-h-screen bg-slate-50 pb-24">
+      {/* Header */}
+      <div className="bg-gradient-to-br from-blue-700 to-blue-900 text-white px-5 pt-12 pb-6 rounded-b-3xl">
+        <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-medium mb-3 border border-white/20">
+          📍 Kaduna, Nigeria
+        </div>
+        <h1 className="text-xl font-bold mb-4">Find Your Home 🏠</h1>
+        <SearchBar value={search} onChange={setSearch} />
+      </div>
 
-        <form onSubmit={onSearch} className="mb-6">
-          <input
-            className="w-full p-3 border rounded"
-            placeholder="Search Lekki, Yaba, Gwarinpa..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-        </form>
+      {/* Security Banner */}
+      <div className="mx-5 mt-4 bg-amber-50 border border-amber-200 rounded-xl p-3 flex items-center gap-3">
+        <span className="text-xl">🛡️</span>
+        <p className="text-xs text-amber-900 font-medium leading-relaxed">
+          All listings are verified. We check IDs, match photo locations, and spot-check properties.
+        </p>
+      </div>
 
-        <section>
-          {loading ? (
-            <div>Loading properties…</div>
-          ) : properties.length === 0 ? (
-            <div>No homes found in this area.</div>
-          ) : (
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {properties.map((p) => (
-                <li key={p.id} className="border rounded p-3">
-                  <Link href={`/properties/${p.id}`}>
-                    <a className="block">
-                      <h2 className="font-semibold">{p.title}</h2>
-                      <p className="text-sm text-gray-600">{p.city} — ₦{p.annual_rent?.toLocaleString()}</p>
-                    </a>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
-      </main>
-    </div>
-  )
+      {/* Filters */}
+      <FilterChips options={types} selected={typeFilter} onSelect={setTypeFilter} />
+      <div className="px-5 -mt-2 mb-2">
+        <select
+          value={areaFilter}
+          onChange={(e) => setAreaFilter(e.target.value)}
+          className="w-full p-3 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-700 outline-none"
+        >
+          {areas.map((a) => (
+            <option key={a} value={a}>
+              {a === "All" ? "All Areas" : a}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Results */}
+      <div className="px-5 mt-4">
+        <div className="flex justify-between items-center mb-3">
+          <h3 className="font-bold text-slate-900">{filtered.length} Properties Found</h3>
+        </div>
+        {filtered.map((p) => (
+          <PropertyCard key={p.id} {...p} />
+        ))}
+        {filtered.length === 0 && (
+          <div className="text-center py-12 text-slate-400">
+            <div className="text-4xl mb-2">🔍</div>
+            <p>No properties found. Try a different search.</p>
+          </div>
+        )}
+      </div>
+
+      <BottomNav />
+    </main>
+  );
 }
