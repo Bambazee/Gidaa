@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-import type { DropResult } from 'react-beautiful-dnd'
 
 type Preview = {
   id: string
@@ -60,7 +59,7 @@ export default function ImageUploader({ onChange }: { onChange: (files: File[]) 
     return result
   }
 
-  function handleDragEnd(result: DropResult) {
+  function handleDragEnd(result: any) {
     if (!result.destination) return
     const next = reorder(previews, result.source.index, result.destination.index)
     setPreviews(next)
