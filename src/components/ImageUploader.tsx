@@ -75,11 +75,11 @@ export default function ImageUploader({ onChange }: { onChange: (files: File[]) 
 
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="image-previews">
-          {(provided) => (
+          {(provided: any) => (
             <div className="grid grid-cols-3 gap-2" ref={provided.innerRef} {...provided.droppableProps}>
               {previews.map((p, idx) => (
                 <Draggable key={p.id} draggableId={p.id} index={idx}>
-                  {(prov, snapshot) => (
+                  {(prov: any, snapshot: any) => (
                     <div
                       ref={prov.innerRef}
                       {...prov.draggableProps}
